@@ -173,7 +173,7 @@ header .container ul a:hover::before {
 }
 
 .s1 .container #rematch:hover {
-    scale: 1.4;
+    transform: scale(1.4);
 	color: aqua;
 }
 
@@ -271,7 +271,7 @@ header .container ul a:hover::before {
 	}
 	
 	.s1 .container #rematch:hover {
-		scale: 1.1;
+		transform: scale(1.1);
 		color: aqua;
 	}
 }

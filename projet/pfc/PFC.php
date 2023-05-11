@@ -68,7 +68,7 @@
 							<p>Ordinateur</p>
 						</div>
 					</div>
-					<a id="rematch" href="./PFC.html">Rejouer</a>
+					<a id="rematch" href="./PFC.php">Rejouer</a>
 					<?php endif; ?>
 				<!-- PHP resultat -->
 			</div>

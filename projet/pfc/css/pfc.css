@@ -83,12 +83,6 @@ header .container ul a:hover::before {
 	
 	header .container ul a {
 		font-size: 3.5vw;
-		text-decoration: none;
-		letter-spacing: 2px;
-		text-transform: uppercase;
-		color: transparent;
-		margin: 0 30px;
-		-webkit-text-stroke : 1px rgb(0, 0, 0);
 	}
 }
 
@@ -150,7 +144,7 @@ header .container ul a:hover::before {
 .s1 .container h5 {
 	font-size: 6em;
 	font-weight: bold;
-	color: var(--tclr);
+	color: red;
 }
 
 .s1 .container div p {

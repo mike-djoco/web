@@ -191,14 +191,6 @@ header .container ul a:hover::before {
 	.s1 .container .question {
 		font-size: 2.5em;
 	}
-	
-	.s1 .container .imagechoose {
-		width: 80%;
-		background: var(--bck2);
-		display: flex;
-		justify-content: space-evenly;
-		align-items: center;
-	}
 
 	.s1 .container .imagechoose img {
 		width: 120px;
@@ -229,12 +221,7 @@ header .container ul a:hover::before {
 	}
 	
 	.s1 .container .imagechoose {
-		width: 80%;
-		background: var(--bck2);
-		display: flex;
 		flex-direction: column;
-		justify-content: space-evenly;
-		align-items: center;
 	}
 
 	.s1 .container .imagechoose img {
@@ -264,15 +251,6 @@ header .container ul a:hover::before {
 	.s1 .container .question {
 		font-size: 1.7em;
 		width: 90%;
-	}
-	
-	.s1 .container .imagechoose {
-		width: 80%;
-		background: var(--bck2);
-		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
-		align-items: center;
 	}
 
 	.s1 .container .imagechoose img {

@@ -153,15 +153,15 @@ header .container ul a:hover::before {
 	color: var(--tclr);
 }
 
-.s1 .container h5.gagner {
+.gagner {
     color: greenyellow;
 }
 
-.s1 .container h5.perdu {
+.perdu {
     color: red;
 }
 
-.s1 .container h5.egalite {
+.egalite {
     color: gray;
 }
 

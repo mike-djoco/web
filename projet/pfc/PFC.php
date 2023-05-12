@@ -14,7 +14,7 @@
 		<meta charset="utf-8">
 		<meta content="width=device-width, initial-scale=1" name="viewport" />
 		<link rel="stylesheet" href="./css/pfc.css">
-		<link rel="icon" type="image/png" sizes="16x16" href="./image/logo.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/image/logo.png">
 	</head>
 	
 	<body style="--bck:#d4d4d4;--bck2:#E9DECB; --tclr:#2c2c2c;">

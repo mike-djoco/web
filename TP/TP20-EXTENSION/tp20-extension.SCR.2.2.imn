@@ -1,0 +1,2017 @@
+node n2 {
+    type lanswitch
+    network-config {
+	hostname switch3
+	!
+    }
+    canvas c0
+    iconcoords {48 504}
+    labelcoords {49 532}
+    interface-peer {e0 n10}
+    interface-peer {e1 n19}
+    interface-peer {e2 n0}
+}
+
+node n3 {
+    type lanswitch
+    network-config {
+	hostname switch4
+	!
+    }
+    canvas c0
+    iconcoords {96 96}
+    labelcoords {51 79}
+    interface-peer {e0 n10}
+    interface-peer {e1 n11}
+    interface-peer {e2 n20}
+}
+
+node n4 {
+    type lanswitch
+    network-config {
+	hostname switch5
+	!
+    }
+    canvas c0
+    iconcoords {384 240}
+    labelcoords {365 261}
+    interface-peer {e0 n9}
+    interface-peer {e1 n11}
+    interface-peer {e2 n21}
+    interface-peer {e3 n1}
+}
+
+node n5 {
+    type lanswitch
+    network-config {
+	hostname switch6
+	!
+    }
+    canvas c0
+    iconcoords {816 72}
+    labelcoords {765 51}
+    interface-peer {e0 n9}
+    interface-peer {e1 n22}
+}
+
+node n6 {
+    type lanswitch
+    network-config {
+	hostname switch7
+	!
+    }
+    canvas c0
+    iconcoords {816 264}
+    labelcoords {810 232}
+    interface-peer {e0 n9}
+    interface-peer {e1 n12}
+    interface-peer {e2 n23}
+    interface-peer {e3 n8}
+}
+
+node n7 {
+    type lanswitch
+    network-config {
+	hostname switch8
+	!
+    }
+    canvas c0
+    iconcoords {528 336}
+    labelcoords {513 313}
+    interface-peer {e0 n12}
+    interface-peer {e1 n13}
+    interface-peer {e2 n14}
+}
+
+node n9 {
+    type host
+    network-config {
+	hostname P5
+	!
+	interface eth3
+	 mac address 42:00:aa:00:00:09
+	 ip address 10.80.0.254/17
+	!
+	interface eth2
+	 mac address 42:00:aa:00:00:04
+	 ip address 10.64.0.254/17
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:03
+	 ip address 10.48.0.254/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.16.0.0/17 10.32.0.255
+	!
+    }
+    canvas c0
+    iconcoords {576 96}
+    labelcoords {543 52}
+    interface-peer {eth1 n4}
+    interface-peer {eth2 n5}
+    interface-peer {eth3 n6}
+    custom-configs {
+        custom-config-id default {
+            custom-command /bin/sh
+            config {
+                ip addr add 127.0.0.1/8 dev lo0
+                
+                ip addr add 10.48.0.254/17 dev eth1
+                ip addr add 10.64.0.254/17 dev eth2
+                ip addr add 10.80.0.254/17 dev eth3
+                ip -6 addr add ::1/128 dev lo0
+                
+                
+                iptables -t nat -A POSTROUTING -o eth3 -s 10.48.0.0/17 -j SNAT --to-source 10.80.0.254
+                
+                rpcbind
+                inetd
+                
+            }
+        }
+    }
+    custom-enabled true
+    custom-selected default
+}
+
+node n10 {
+    type host
+    network-config {
+	hostname P3
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:06
+	 ip address 10.32.0.254/17
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:05
+	 ip address 10.16.0.254/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+    }
+    canvas c0
+    iconcoords {240 288}
+    labelcoords {246 328}
+    interface-peer {eth0 n2}
+    interface-peer {eth1 n3}
+}
+
+node n11 {
+    type host
+    network-config {
+	hostname P4
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:08
+	 ip address 10.48.0.255/17
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:07
+	 ip address 10.32.0.255/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.16.0.0/17 10.32.0.254
+	!
+    }
+    canvas c0
+    iconcoords {264 96}
+    labelcoords {271 52}
+    interface-peer {eth0 n3}
+    interface-peer {eth1 n4}
+    custom-configs {
+        custom-config-id default {
+            custom-command /bin/sh
+            config {
+                ip addr add 127.0.0.1/8 dev lo0
+                ip addr add 10.32.0.255/17 dev eth0
+                ip addr add 10.48.0.255/17 dev eth1
+                ip -6 addr add ::1/128 dev lo0
+                
+                
+                iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source 10.32.0.255
+                iptables -t nat -A POSTROUTING -o eth1 -j SNAT --to-source 10.48.0.255
+                
+                rpcbind
+                inetd
+                
+            }
+        }
+    }
+    custom-enabled true
+    custom-selected default
+}
+
+node n12 {
+    type host
+    network-config {
+	hostname P6
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:0a
+	 ip address 10.80.0.255/17
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:0b
+	 ip address 102.103.104.255/15
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	!
+    }
+    canvas c0
+    iconcoords {720 432}
+    labelcoords {679 455}
+    interface-peer {eth0 n6}
+    interface-peer {eth1 n7}
+    custom-configs {
+        custom-config-id default {
+            custom-command /bin/sh
+            config {
+                ip addr add 127.0.0.1/8 dev lo0
+                ip addr add 10.80.0.255/17 dev eth0
+                ip addr add 102.103.104.255/15 dev eth1
+                ip -6 addr add ::1/128 dev lo0
+                
+                
+                iptables -t nat -A POSTROUTING -o eth1 -j SNAT --to-source 102.103.104.255
+                
+                rpcbind
+                inetd
+                
+            }
+        }
+    }
+    custom-enabled true
+    custom-selected default
+}
+
+node n13 {
+    type router
+    model quagga
+    network-config {
+	hostname router1
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:0e
+	 ip address 202.203.204.254/11
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:0c
+	 ip address 102.103.104.254/15
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	router rip
+	 redistribute static
+	 redistribute connected
+	 redistribute ospf
+	 network 0.0.0.0/0
+	!
+	router ripng
+	 redistribute static
+	 redistribute connected
+	 redistribute ospf6
+	 network ::/0
+	!
+    }
+    canvas c0
+    iconcoords {696 552}
+    labelcoords {696 577}
+    interface-peer {eth0 n7}
+    interface-peer {eth1 n15}
+}
+
+node n14 {
+    type host
+    network-config {
+	hostname host2
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:0d
+	 ip address 102.103.104.104/15
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 202.192.0.0/11 102.103.104.254
+	!
+    }
+    canvas c0
+    iconcoords {432 456}
+    labelcoords {417 415}
+    interface-peer {eth0 n7}
+}
+
+node n15 {
+    type host
+    network-config {
+	hostname host3
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:0f
+	 ip address 202.203.204.204/11
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	!
+	ip route 102.102.0.0/15 202.203.204.254
+	!
+    }
+    canvas c0
+    iconcoords {432 552}
+    labelcoords {432 588}
+    interface-peer {eth0 n13}
+}
+
+node n19 {
+    type pc
+    network-config {
+	hostname pc3
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:13
+	 ip address 10.16.0.3/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.32.0.0/17 10.16.0.254
+	!
+    }
+    canvas c0
+    iconcoords {216 504}
+    labelcoords {216 535}
+    interface-peer {eth0 n2}
+}
+
+node n20 {
+    type pc
+    network-config {
+	hostname pc4
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:14
+	 ip address 10.32.0.4/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.16.0.0/17 10.32.0.254
+	ip route 10.48.0.0/17 10.32.0.255
+	!
+    }
+    canvas c0
+    iconcoords {96 192}
+    labelcoords {96 223}
+    interface-peer {eth0 n3}
+}
+
+node n21 {
+    type pc
+    network-config {
+	hostname pc5
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:15
+	 ip address 10.48.0.5/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.64.0.0/17 10.48.0.254
+	ip route 10.80.0.0/17 10.48.0.254
+	!
+    }
+    canvas c0
+    iconcoords {528 240}
+    labelcoords {528 271}
+    interface-peer {eth0 n4}
+}
+
+node n22 {
+    type pc
+    network-config {
+	hostname pc6
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:16
+	 ip address 10.64.0.6/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.16.0.0/17 10.64.0.254
+	ip route 10.48.0.0/17 10.64.0.254
+	ip route 10.80.0.0/17 10.64.0.254
+	!
+    }
+    canvas c0
+    iconcoords {816 168}
+    labelcoords {816 199}
+    interface-peer {eth0 n5}
+}
+
+node n23 {
+    type pc
+    network-config {
+	hostname pc7
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:17
+	 ip address 10.80.0.7/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.64.0.0/17 10.80.0.254
+	!
+    }
+    canvas c0
+    iconcoords {624 240}
+    labelcoords {624 271}
+    interface-peer {eth0 n6}
+}
+
+node n0 {
+    type host
+    network-config {
+	hostname host1
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:00
+	 ip address 10.16.0.200/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.32.0.0/17 10.16.0.254
+	!
+    }
+    canvas c0
+    iconcoords {48 360}
+    labelcoords {48 326}
+    interface-peer {eth0 n2}
+}
+
+node n1 {
+    type pc
+    network-config {
+	hostname pc6-5
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:01
+	 ip address 10.48.0.6/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	ip route 10.64.0.0/17 10.48.0.254
+	!
+    }
+    canvas c0
+    iconcoords {432 72}
+    labelcoords {405 41}
+    interface-peer {eth0 n4}
+}
+
+node n8 {
+    type pc
+    network-config {
+	hostname pc8
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:02
+	 ip address 10.80.0.8/17
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	ip route 10.64.0.0/17 10.80.0.254
+	!
+    }
+    canvas c0
+    iconcoords {672 312}
+    labelcoords {669 338}
+    interface-peer {eth0 n6}
+}
+
+node n16 {
+    type lanswitch
+    network-config {
+	hostname switch15
+	!
+    }
+    canvas c1
+    iconcoords {96 528}
+    labelcoords {97 556}
+    interface-peer {e0 n28}
+    interface-peer {e1 n34}
+    interface-peer {e2 n39}
+}
+
+node n17 {
+    type lanswitch
+    network-config {
+	hostname switch16
+	!
+    }
+    canvas c1
+    iconcoords {120 72}
+    labelcoords {75 55}
+    interface-peer {e0 n28}
+    interface-peer {e1 n29}
+    interface-peer {e2 n35}
+}
+
+node n18 {
+    type lanswitch
+    network-config {
+	hostname switch17
+	!
+    }
+    canvas c1
+    iconcoords {360 288}
+    labelcoords {341 309}
+    interface-peer {e0 n27}
+    interface-peer {e1 n29}
+    interface-peer {e2 n36}
+    interface-peer {e3 n40}
+}
+
+node n24 {
+    type lanswitch
+    network-config {
+	hostname switch18
+	!
+    }
+    canvas c1
+    iconcoords {816 48}
+    labelcoords {765 27}
+    interface-peer {e0 n27}
+    interface-peer {e1 n37}
+}
+
+node n25 {
+    type lanswitch
+    network-config {
+	hostname switch19
+	!
+    }
+    canvas c1
+    iconcoords {816 264}
+    labelcoords {810 232}
+    interface-peer {e0 n27}
+    interface-peer {e1 n30}
+    interface-peer {e2 n38}
+    interface-peer {e3 n41}
+}
+
+node n26 {
+    type lanswitch
+    network-config {
+	hostname switch20
+	!
+    }
+    canvas c1
+    iconcoords {528 336}
+    labelcoords {513 313}
+    interface-peer {e0 n30}
+    interface-peer {e1 n31}
+    interface-peer {e2 n32}
+}
+
+node n27 {
+    type host
+    network-config {
+	hostname host10
+	!
+	interface eth3
+	 mac address 42:00:aa:00:00:12
+	 ip address 10.0.4.10/24
+	 ipv6 address fc00:4::10/64
+	!
+	interface eth2
+	 mac address 42:00:aa:00:00:11
+	 ip address 10.0.3.10/24
+	 ipv6 address fc00:3::10/64
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:10
+	 ip address 10.0.2.10/24
+	 ipv6 address fc00:2::10/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+    }
+    canvas c1
+    iconcoords {576 96}
+    labelcoords {543 52}
+    interface-peer {eth1 n18}
+    interface-peer {eth2 n24}
+    interface-peer {eth3 n25}
+    custom-configs {
+        custom-config-id default {
+            custom-command /bin/sh
+            config {
+                ip addr add 127.0.0.1/8 dev lo0
+                
+                ip addr add 10.48.0.254/17 dev eth1
+                ip addr add 10.64.0.254/17 dev eth2
+                ip addr add 10.80.0.254/17 dev eth3
+                ip -6 addr add ::1/128 dev lo0
+                
+                
+                iptables -t nat -A POSTROUTING -o eth3 -s 10.48.0.0/17 -j SNAT --to-source 10.80.0.254
+                
+                rpcbind
+                inetd
+                
+            }
+        }
+    }
+    custom-enabled true
+    custom-selected default
+}
+
+node n28 {
+    type host
+    network-config {
+	hostname host11
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:19
+	 ip address 10.0.1.10/24
+	 ipv6 address fc00:1::10/64
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:18
+	 ip address 10.0.0.10/24
+	 ipv6 address fc00::10/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+    }
+    canvas c1
+    iconcoords {240 288}
+    labelcoords {246 328}
+    interface-peer {eth0 n16}
+    interface-peer {eth1 n17}
+}
+
+node n29 {
+    type host
+    network-config {
+	hostname host12
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:1b
+	 ip address 10.0.2.11/24
+	 ipv6 address fc00:2::11/64
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:1a
+	 ip address 10.0.1.11/24
+	 ipv6 address fc00:1::11/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+    }
+    canvas c1
+    iconcoords {264 96}
+    labelcoords {271 52}
+    interface-peer {eth0 n17}
+    interface-peer {eth1 n18}
+    custom-configs {
+        custom-config-id default {
+            custom-command /bin/sh
+            config {
+                ip addr add 127.0.0.1/8 dev lo0
+                ip addr add 10.32.0.255/17 dev eth0
+                ip addr add 10.48.0.255/17 dev eth1
+                ip -6 addr add ::1/128 dev lo0
+                
+                
+                iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source 10.32.0.255
+                iptables -t nat -A POSTROUTING -o eth1 -j SNAT --to-source 10.48.0.255
+                
+                rpcbind
+                inetd
+                
+            }
+        }
+    }
+    custom-enabled true
+    custom-selected default
+}
+
+node n30 {
+    type host
+    network-config {
+	hostname host13
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:1d
+	 ip address 10.0.5.10/24
+	 ipv6 address fc00:5::10/64
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:1c
+	 ip address 10.0.4.11/24
+	 ipv6 address fc00:4::11/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	!
+	ip route 0.0.0.0/0 10.0.5.1
+	!
+	ipv6 route ::/0 fc00:5::1
+	!
+    }
+    canvas c1
+    iconcoords {720 408}
+    labelcoords {679 431}
+    interface-peer {eth0 n25}
+    interface-peer {eth1 n26}
+    custom-configs {
+        custom-config-id default {
+            custom-command /bin/sh
+            config {
+                ip addr add 127.0.0.1/8 dev lo0
+                ip addr add 10.80.0.255/17 dev eth0
+                ip addr add 102.103.104.255/15 dev eth1
+                ip -6 addr add ::1/128 dev lo0
+                
+                
+                iptables -t nat -A POSTROUTING -o eth1 -j SNAT --to-source 102.103.104.255
+                
+                rpcbind
+                inetd
+                
+            }
+        }
+    }
+    custom-enabled true
+    custom-selected default
+}
+
+node n31 {
+    type router
+    model quagga
+    network-config {
+	hostname router3
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:1f
+	 ip address 10.0.6.1/24
+	 ipv6 address fc00:6::1/64
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:1e
+	 ip address 10.0.5.1/24
+	 ipv6 address fc00:5::1/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	router rip
+	 redistribute static
+	 redistribute connected
+	 redistribute ospf
+	 network 0.0.0.0/0
+	!
+	router ripng
+	 redistribute static
+	 redistribute connected
+	 redistribute ospf6
+	 network ::/0
+	!
+    }
+    canvas c1
+    iconcoords {696 552}
+    labelcoords {696 577}
+    interface-peer {eth0 n26}
+    interface-peer {eth1 n33}
+}
+
+node n32 {
+    type host
+    network-config {
+	hostname host14
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:20
+	 ip address 10.0.5.11/24
+	 ipv6 address fc00:5::11/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 0.0.0.0/0 10.0.5.1
+	!
+	ipv6 route ::/0 fc00:5::1
+	!
+    }
+    canvas c1
+    iconcoords {432 456}
+    labelcoords {434 417}
+    interface-peer {eth0 n26}
+}
+
+node n33 {
+    type host
+    network-config {
+	hostname host15
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:21
+	 ip address 10.0.6.10/24
+	 ipv6 address fc00:6::10/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	!
+	ip route 0.0.0.0/0 10.0.6.1
+	!
+	ipv6 route ::/0 fc00:6::1
+	!
+    }
+    canvas c1
+    iconcoords {432 552}
+    labelcoords {432 588}
+    interface-peer {eth0 n31}
+}
+
+node n34 {
+    type pc
+    network-config {
+	hostname pc16
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:22
+	 ip address 10.0.0.20/24
+	 ipv6 address fc00::20/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.32.0.0/17 10.16.0.254
+	!
+    }
+    canvas c1
+    iconcoords {264 528}
+    labelcoords {264 559}
+    interface-peer {eth0 n16}
+}
+
+node n35 {
+    type pc
+    network-config {
+	hostname pc17
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:23
+	 ip address 10.0.1.20/24
+	 ipv6 address fc00:1::20/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.16.0.0/17 10.32.0.254
+	!
+    }
+    canvas c1
+    iconcoords {48 216}
+    labelcoords {48 247}
+    interface-peer {eth0 n17}
+}
+
+node n36 {
+    type pc
+    network-config {
+	hostname pc18
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:24
+	 ip address 10.0.2.20/24
+	 ipv6 address fc00:2::20/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+    }
+    canvas c1
+    iconcoords {552 216}
+    labelcoords {552 247}
+    interface-peer {eth0 n18}
+}
+
+node n37 {
+    type pc
+    network-config {
+	hostname pc19
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:25
+	 ip address 10.0.3.20/24
+	 ipv6 address fc00:3::20/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.16.0.0/17 10.32.0.254
+	!
+    }
+    canvas c1
+    iconcoords {816 168}
+    labelcoords {816 199}
+    interface-peer {eth0 n24}
+}
+
+node n38 {
+    type pc
+    network-config {
+	hostname pc20
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:26
+	 ip address 10.0.4.20/24
+	 ipv6 address fc00:4::20/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+    }
+    canvas c1
+    iconcoords {600 216}
+    labelcoords {600 247}
+    interface-peer {eth0 n25}
+}
+
+node n39 {
+    type host
+    network-config {
+	hostname host16
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:27
+	 ip address 10.0.0.11/24
+	 ipv6 address fc00::11/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+	!
+	ip route 10.32.0.0/17 10.16.0.254
+	!
+    }
+    canvas c1
+    iconcoords {24 360}
+    labelcoords {24 326}
+    interface-peer {eth0 n16}
+}
+
+node n40 {
+    type pc
+    network-config {
+	hostname pc21
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:28
+	 ip address 10.0.2.21/24
+	 ipv6 address fc00:2::21/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+    }
+    canvas c1
+    iconcoords {432 72}
+    labelcoords {405 41}
+    interface-peer {eth0 n18}
+}
+
+node n41 {
+    type pc
+    network-config {
+	hostname pc22
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:29
+	 ip address 10.0.4.21/24
+	 ipv6 address fc00:4::21/64
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	 ipv6 address ::1/128
+	!
+    }
+    canvas c1
+    iconcoords {648 312}
+    labelcoords {648 343}
+    interface-peer {eth0 n25}
+}
+
+link l3 {
+    nodes {n9 n4}
+    bandwidth 0
+}
+
+link l4 {
+    nodes {n5 n9}
+    bandwidth 0
+}
+
+link l5 {
+    nodes {n10 n2}
+    bandwidth 0
+}
+
+link l6 {
+    nodes {n3 n10}
+    bandwidth 0
+}
+
+link l7 {
+    nodes {n11 n3}
+    bandwidth 0
+}
+
+link l8 {
+    nodes {n4 n11}
+    bandwidth 0
+}
+
+link l9 {
+    nodes {n6 n9}
+    bandwidth 0
+}
+
+link l10 {
+    nodes {n6 n12}
+    bandwidth 0
+}
+
+link l11 {
+    nodes {n7 n12}
+    bandwidth 0
+}
+
+link l12 {
+    nodes {n13 n7}
+    bandwidth 0
+}
+
+link l13 {
+    nodes {n7 n14}
+    bandwidth 0
+}
+
+link l14 {
+    nodes {n15 n13}
+    bandwidth 0
+}
+
+link l18 {
+    nodes {n19 n2}
+    bandwidth 0
+}
+
+link l19 {
+    nodes {n20 n3}
+    bandwidth 0
+}
+
+link l20 {
+    nodes {n4 n21}
+    bandwidth 0
+}
+
+link l21 {
+    nodes {n5 n22}
+    bandwidth 0
+}
+
+link l22 {
+    nodes {n6 n23}
+    bandwidth 0
+}
+
+link l0 {
+    nodes {n2 n0}
+    bandwidth 0
+}
+
+link l1 {
+    nodes {n1 n4}
+    bandwidth 0
+}
+
+link l2 {
+    nodes {n6 n8}
+    bandwidth 0
+}
+
+link l15 {
+    nodes {n28 n16}
+    bandwidth 0
+}
+
+link l16 {
+    nodes {n34 n16}
+    bandwidth 0
+}
+
+link l17 {
+    nodes {n16 n39}
+    bandwidth 0
+}
+
+link l23 {
+    nodes {n17 n28}
+    bandwidth 0
+}
+
+link l24 {
+    nodes {n29 n17}
+    bandwidth 0
+}
+
+link l25 {
+    nodes {n35 n17}
+    bandwidth 0
+}
+
+link l26 {
+    nodes {n27 n18}
+    bandwidth 0
+}
+
+link l27 {
+    nodes {n18 n29}
+    bandwidth 0
+}
+
+link l28 {
+    nodes {n18 n36}
+    bandwidth 0
+}
+
+link l29 {
+    nodes {n40 n18}
+    bandwidth 0
+}
+
+link l30 {
+    nodes {n24 n27}
+    bandwidth 0
+}
+
+link l31 {
+    nodes {n24 n37}
+    bandwidth 0
+}
+
+link l32 {
+    nodes {n25 n27}
+    bandwidth 0
+}
+
+link l33 {
+    nodes {n25 n30}
+    bandwidth 0
+}
+
+link l34 {
+    nodes {n25 n38}
+    bandwidth 0
+}
+
+link l35 {
+    nodes {n25 n41}
+    bandwidth 0
+}
+
+link l36 {
+    nodes {n26 n30}
+    bandwidth 0
+}
+
+link l37 {
+    nodes {n31 n26}
+    bandwidth 0
+}
+
+link l38 {
+    nodes {n26 n32}
+    bandwidth 0
+}
+
+link l39 {
+    nodes {n33 n31}
+    bandwidth 0
+}
+
+annotation a31 {
+    type rectangle
+    iconcoords {757 210 855 429}
+    color #ff8080
+    bordercolor black
+    width 1
+    canvas c1
+}
+
+annotation a32 {
+    type rectangle
+    iconcoords {577 184 789 348}
+    color #ff8080
+    bordercolor black
+    width 1
+    canvas c1
+}
+
+annotation a33 {
+    type rectangle
+    iconcoords {598 37 775 108}
+    color #008080
+    bordercolor black
+    width 1
+    canvas c1
+}
+
+annotation a34 {
+    type rectangle
+    iconcoords {762 34 873 207}
+    color #008080
+    bordercolor black
+    width 1
+    canvas c1
+}
+
+annotation a35 {
+    type rectangle
+    iconcoords {286 15 569 304}
+    color #800080
+    bordercolor black
+    width 1
+    canvas c1
+}
+
+annotation a36 {
+    type rectangle
+    iconcoords {11 16 240 262}
+    color #808000
+    bordercolor black
+    width 1
+    canvas c1
+    type rectangle
+}
+
+annotation a37 {
+    type rectangle
+    iconcoords {0 317 289 579}
+    color Gray
+    bordercolor black
+    width 1
+    canvas c1
+    type rectangle
+}
+
+annotation a38 {
+    type freeform
+    iconcoords {740 176 738 181 736 189 731 197 725 209 724 211 727 212 733 212 750 212 755 212 756 212}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a39 {
+    type freeform
+    iconcoords {770 176 769 183 761 196 757 200 748 202 745 202 744 203}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a40 {
+    type freeform
+    iconcoords {697 89 701 87 711 85 732 77 746 73 747 78 741 98 735 109 734 112}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a41 {
+    type freeform
+    iconcoords {725 91 724 95 720 100 706 119 701 130 694 146 694 154 694 167 694 177 694 193 694 198 694 200 696 202}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a42 {
+    type freeform
+    iconcoords {210 188 211 185 222 162 231 162 238 167 240 169}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a43 {
+    type freeform
+    iconcoords {299 196 296 197 290 200 278 202 261 204 245 199 233 193 226 191 222 187 220 180 218 178}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a44 {
+    type freeform
+    iconcoords {293 63 300 63 304 62 317 58 321 58 320 54 319 45 315 37 311 25}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a45 {
+    type freeform
+    iconcoords {219 45 237 38 256 38 264 38 274 42 284 43 294 47 300 51 303 53 304 53}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a46 {
+    type freeform
+    iconcoords {258 336 255 351 254 361 255 367 258 368 267 368 272 369 280 369 285 369 287 369 290 369}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a47 {
+    type freeform
+    iconcoords {307 291 306 293 302 305 299 312 284 332 278 338 276 341 269 352 268 353}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a48 {
+    type freeform
+    iconcoords {301 478 289 484 271 490 269 490 274 493 303 508 305 509 307 511}
+    color blue
+    width 2
+    canvas c1
+    type freeform
+}
+
+annotation a49 {
+    type freeform
+    iconcoords {278 488 289 491 303 497 313 499 343 505 355 509 362 511 363 513 380 515 424 515 451 515 485 520 505 524 517 525 526 526 548 529 569 529 573 529 592 529 606 529 623 529 628 529 651 529 682 529 710 529 735 528 739 526 753 526 763 526 795 526 818 526 834 524 841 521 854 506 856 503 862 492 865 483 865 478 869 469 874 435 880 416 882 400 882 359 882 351 882 347 882 339 882 336 884 308 888 276 888 259 888 255 888 240 886 222 884 212 880 200 877 199}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a50 {
+    type freeform
+    iconcoords {154 294 154 302 160 309 176 305 182 302 185 302 185 301}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a51 {
+    type freeform
+    iconcoords {161 265 165 279 165 300 163 306 159 308 157 309}
+    color blue
+    width 2
+    canvas c1
+    type freeform
+}
+
+annotation a52 {
+    type freeform
+    iconcoords {49 268 55 268 63 264 65 264 69 267 71 273 72 274}
+    color blue
+    width 2
+    canvas c1
+    type freeform
+}
+
+annotation a53 {
+    type freeform
+    iconcoords {65 307 61 303 61 301 57 281 60 270 62 265 64 263}
+    color blue
+    width 2
+    canvas c1
+    type rectangle
+    bordercolor black
+    type rectangle
+    type oval
+    type freeform
+}
+
+annotation a28 {
+    type rectangle
+    iconcoords {388 362 748 597}
+    color #80ff74
+    bordercolor black
+    width 1
+    canvas c1
+    type rectangle
+}
+
+annotation a29 {
+    type freeform
+    iconcoords {592 324 595 322 606 305 618 292 620 286 618 283 608 283 597 283 595 283 593 283}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a30 {
+    type freeform
+    iconcoords {588 305 606 302 616 300 618 301 623 301 626 301}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a54 {
+    type freeform
+    iconcoords {170 440 189 442 195 443 192 447 171 455 169 456 179 456 189 460 194 463 194 473 190 483 183 484 173 484 165 481 160 478}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a55 {
+    type freeform
+    iconcoords {42 88 40 104 36 112 36 117 44 121 55 122 61 124 63 124 65 124}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a56 {
+    type freeform
+    iconcoords {49 107 50 116 50 121 49 130 45 140 43 145 41 151}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a57 {
+    type freeform
+    iconcoords {472 110 465 108 463 108 450 109 449 117 449 120 449 130 449 137 449 139 460 140 467 141 473 145 470 156 468 158 459 158 452 158 449 158}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a58 {
+    type freeform
+    iconcoords {853 53 842 56 833 77 833 80 833 89 834 93 846 97 850 91 848 84 838 78 833 77 830 76}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a59 {
+    type freeform
+    iconcoords {536 487 546 491 559 491 561 491 568 489 572 481 572 472 568 466 560 463 549 454 548 443 549 438 557 436 567 440 567 454 557 461 554 462 536 472 526 476 519 480 518 486 521 490 523 491 545 495 549 495 557 492 559 491 560 490}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a60 {
+    type freeform
+    iconcoords {607 332 606 340 605 342 601 351 599 366 599 372 599 374}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a61 {
+    type freeform
+    iconcoords {582 373 593 387 597 389 603 386 607 380 611 375 610 374}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a62 {
+    type freeform
+    iconcoords {555 168 559 168 574 169 582 170 586 170 595 173 601 176 603 176 617 189 624 193 630 195 633 197}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a63 {
+    type freeform
+    iconcoords {638 179 638 192 640 201 641 203 631 203 620 205 618 206}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a64 {
+    type freeform
+    iconcoords {526 30 528 29 538 29 565 26 603 24 618 27 622 30 637 36 642 40 643 41}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a65 {
+    type freeform
+    iconcoords {619 38 639 45 647 46 649 48 650 36 652 30 652 29}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a66 {
+    type freeform
+    iconcoords {628 57 613 57 589 57 575 57 557 59 549 61 545 61 537 63 526 66 521 68 520 68}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a67 {
+    type freeform
+    iconcoords {511 51 506 61 500 78 502 81 524 81 527 81 531 81}
+    color blue
+    width 2
+    canvas c1
+}
+
+annotation a0 {
+    type rectangle
+    iconcoords {388 362 748 597}
+    color #80ff74
+    bordercolor black
+    width 1
+    canvas c0
+    type rectangle
+}
+
+annotation a1 {
+    type rectangle
+    iconcoords {0 317 289 579}
+    color Gray
+    bordercolor black
+    width 1
+    canvas c0
+    type rectangle
+}
+
+annotation a2 {
+    type rectangle
+    iconcoords {11 16 240 262}
+    color #808000
+    bordercolor black
+    width 1
+    canvas c0
+    type rectangle
+}
+
+annotation a3 {
+    type rectangle
+    iconcoords {286 15 569 304}
+    color #800080
+    bordercolor black
+    width 1
+    canvas c0
+}
+
+annotation a4 {
+    type rectangle
+    iconcoords {762 34 873 207}
+    color #008080
+    bordercolor black
+    width 1
+    canvas c0
+}
+
+annotation a5 {
+    type rectangle
+    iconcoords {598 37 775 108}
+    color #008080
+    bordercolor black
+    width 1
+    canvas c0
+}
+
+annotation a6 {
+    type rectangle
+    iconcoords {577 184 789 348}
+    color #ff8080
+    bordercolor black
+    width 1
+    canvas c0
+}
+
+annotation a7 {
+    type rectangle
+    iconcoords {757 210 855 429}
+    color #ff8080
+    bordercolor black
+    width 1
+    canvas c0
+}
+
+annotation a8 {
+    type freeform
+    iconcoords {511 51 506 61 500 78 502 81 524 81 527 81 531 81}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a9 {
+    type freeform
+    iconcoords {628 57 613 57 589 57 575 57 557 59 549 61 545 61 537 63 526 66 521 68 520 68}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a10 {
+    type freeform
+    iconcoords {619 38 639 45 647 46 649 48 650 36 652 30 652 29}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a11 {
+    type freeform
+    iconcoords {526 30 528 29 538 29 565 26 603 24 618 27 622 30 637 36 642 40 643 41}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a12 {
+    type freeform
+    iconcoords {638 179 638 192 640 201 641 203 631 203 620 205 618 206}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a13 {
+    type freeform
+    iconcoords {555 168 559 168 574 169 582 170 586 170 595 173 601 176 603 176 617 189 624 193 630 195 633 197}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a14 {
+    type freeform
+    iconcoords {582 373 593 387 597 389 603 386 607 380 611 375 610 374}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a15 {
+    type freeform
+    iconcoords {607 332 606 340 605 342 601 351 599 366 599 372 599 374}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a17 {
+    type freeform
+    iconcoords {853 53 842 56 833 77 833 80 833 89 834 93 846 97 850 91 848 84 838 78 833 77 830 76}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a18 {
+    type freeform
+    iconcoords {472 110 465 108 463 108 450 109 449 117 449 120 449 130 449 137 449 139 460 140 467 141 473 145 470 156 468 158 459 158 452 158 449 158}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a19 {
+    type freeform
+    iconcoords {49 107 50 116 50 121 49 130 45 140 43 145 41 151}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a20 {
+    type freeform
+    iconcoords {42 88 40 104 36 112 36 117 44 121 55 122 61 124 63 124 65 124}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a21 {
+    type freeform
+    iconcoords {588 305 606 302 616 300 618 301 623 301 626 301}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a22 {
+    type freeform
+    iconcoords {592 324 595 322 606 305 618 292 620 286 618 283 608 283 597 283 595 283 593 283}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a23 {
+    type freeform
+    iconcoords {65 307 61 303 61 301 57 281 60 270 62 265 64 263}
+    color blue
+    width 2
+    canvas c0
+    type rectangle
+    bordercolor black
+    type rectangle
+    type oval
+    type freeform
+}
+
+annotation a24 {
+    type freeform
+    iconcoords {49 268 55 268 63 264 65 264 69 267 71 273 72 274}
+    color blue
+    width 2
+    canvas c0
+    type freeform
+}
+
+annotation a25 {
+    type freeform
+    iconcoords {161 265 165 279 165 300 163 306 159 308 157 309}
+    color blue
+    width 2
+    canvas c0
+    type freeform
+}
+
+annotation a26 {
+    type freeform
+    iconcoords {154 294 154 302 160 309 176 305 182 302 185 302 185 301}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a27 {
+    type freeform
+    iconcoords {278 488 289 491 303 497 313 499 343 505 355 509 362 511 363 513 380 515 424 515 451 515 485 520 505 524 517 525 526 526 548 529 569 529 573 529 592 529 606 529 623 529 628 529 651 529 682 529 710 529 735 528 739 526 753 526 763 526 795 526 818 526 834 524 841 521 854 506 856 503 862 492 865 483 865 478 869 469 874 435 880 416 882 400 882 359 882 351 882 347 882 339 882 336 884 308 888 276 888 259 888 255 888 240 886 222 884 212 880 200 877 199}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a68 {
+    type freeform
+    iconcoords {301 478 289 484 271 490 269 490 274 493 303 508 305 509 307 511}
+    color blue
+    width 2
+    canvas c0
+    type freeform
+}
+
+annotation a69 {
+    type freeform
+    iconcoords {307 291 306 293 302 305 299 312 284 332 278 338 276 341 269 352 268 353}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a70 {
+    type freeform
+    iconcoords {258 336 255 351 254 361 255 367 258 368 267 368 272 369 280 369 285 369 287 369 290 369}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a71 {
+    type freeform
+    iconcoords {219 45 237 38 256 38 264 38 274 42 284 43 294 47 300 51 303 53 304 53}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a72 {
+    type freeform
+    iconcoords {293 63 300 63 304 62 317 58 321 58 320 54 319 45 315 37 311 25}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a75 {
+    type freeform
+    iconcoords {725 91 724 95 720 100 706 119 701 130 694 146 694 154 694 167 694 177 694 193 694 198 694 200 696 202}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a76 {
+    type freeform
+    iconcoords {697 89 701 87 711 85 732 77 746 73 747 78 741 98 735 109 734 112}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a77 {
+    type freeform
+    iconcoords {770 176 769 183 761 196 757 200 748 202 745 202 744 203}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a78 {
+    type freeform
+    iconcoords {740 176 738 181 736 189 731 197 725 209 724 211 727 212 733 212 750 212 755 212 756 212}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a79 {
+    type freeform
+    iconcoords {170 440 189 442 195 443 192 447 171 455 169 456 179 456 189 460 194 463 194 473 190 483 183 484 173 484 165 481 160 478}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a16 {
+    type freeform
+    iconcoords {471 450 471 461 473 482 475 485 479 470 484 483 488 490 489 487 491 474 493 467 493 464 493 453 493 451}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a73 {
+    type freeform
+    iconcoords {499 456 502 457 504 469 507 476 508 487 508 491 510 491 519 489 525 489 521 485 519 484 518 484}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a74 {
+    type freeform
+    iconcoords {524 468 517 468 513 468 501 466 498 455 498 453 503 453 525 450 533 450 535 449}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a80 {
+    type freeform
+    iconcoords {554 447 557 457 557 464 557 474 558 480 565 485 567 486 575 486 580 486 582 483 581 479 575 472 569 468 567 468 576 458 576 446 572 443 570 443 561 441 558 441}
+    color blue
+    width 2
+    canvas c0
+}
+
+canvas c0 {
+    name {Canvas0}
+}
+
+canvas c1 {
+    name {Canvas1}
+}
+
+option show {
+    interface_names yes
+    ip_addresses yes
+    ipv6_addresses yes
+    node_labels yes
+    link_labels yes
+    background_images no
+    annotations yes
+    hostsAutoAssign no
+    grid yes
+    iconSize normal
+    zoom 1
+}
+
